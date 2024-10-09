@@ -1,5 +1,6 @@
 # Script de Administración de Samba
-
+> [!WARNING]
+> Este script ha sido creado por un estudiante, por lo que no es 100% seguro
 ## Autor
 Pedro Miguel Morales Calderin
 
