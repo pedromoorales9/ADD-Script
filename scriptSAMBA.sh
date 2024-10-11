@@ -1,47 +1,5 @@
 #!/bin/bash
 
-# Función para crear usuario Samba
-create_samba_user() {
-    if ! id "$1" &>/dev/null; then
-        sudo useradd "$1"
-        echo "Usuario $1 creado"
-    else
-        echo "Usuario $1 ya existe"
-    fi
-    echo -e "$2\n$2" | sudo smbpasswd -a "$1" -s
-    echo "Contraseña Samba establecida para $1"
-}
-
-# Función para crear grupo Samba
-create_samba_group() {
-    if ! getent group "$1" &>/dev/null; then
-        sudo groupadd "$1"
-        echo "Grupo Samba $1 creado"
-    else
-        echo "Grupo $1 ya existe"
-    fi
-}
-
-# Función para añadir usuario a grupo
-add_user_to_group() {
-    if getent group "$2" &>/dev/null; then
-        sudo usermod -aG "$2" "$1"
-        echo "Usuario $1 añadido al grupo $2"
-    else
-        echo "Error: El grupo $2 no existe"
-    fi
-}
-
-# Función para crear compartición Samba
-create_samba_share() {
-    local sharename=$1
-    local path=$2
-    sudo mkdir -p "$path"
-    echo -e "\n[$sharename]\n  path = $path\n  read only = no\n  browsable = yes" | sudo tee -a /etc/samba/smb.conf > /dev/null
-    sudo systemctl restart smbd
-    echo "Compartición Samba $sharename creada en $path"
-}
-
 # Bucle principal de operaciones
 while true; do
     echo -e "\n--- Menú de Operaciones ---"
